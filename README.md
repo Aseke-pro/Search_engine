@@ -60,5 +60,5 @@ Use Russian in the search.
 The program works in multithreaded mode and uses all processor cores to quickly crawl the site through pages. A Russian-language lemotizer is used. To drop data from the database, use the SQL script. The scripts are located in the resource folder.
 
 The final project in the course is a Java programmer from Skill Box.
-The project was completed by Arkady Kruglov.
-Contacts: arkadiy_88@bk.ru
+The project was completed by Askar Kutlimuratov.
+Contacts: tire.teri@gmail.com
