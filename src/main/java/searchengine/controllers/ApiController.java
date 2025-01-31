@@ -1,5 +1,4 @@
 package searchengine.controllers;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import searchengine.dto.Indexing.IndexingResponse;
@@ -24,32 +23,55 @@ public class ApiController {
 
     @GetMapping("/startIndexing")
     public ResponseEntity<IndexingResponse> startIndexing() {
-        return ResponseEntity.ok(indexingService.startIndexing());
+        try {
+            return ResponseEntity.ok(indexingService.startIndexing());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new IndexingResponse(false, "Ошибка при запуске индексации: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/stopIndexing")
     public ResponseEntity<IndexingResponse> stopIndexing() {
-        return ResponseEntity.ok(indexingService.stopIndexing());
+        try {
+            return ResponseEntity.ok(indexingService.stopIndexing());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new IndexingResponse(false, "Ошибка при остановке индексации: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/deleteDataBase")
     public ResponseEntity<IndexingResponse> deleteDataBase() {
-        return ResponseEntity.ok(indexingService.deleteDataBase());
+        try {
+            return ResponseEntity.ok(indexingService.deleteDataBase());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new IndexingResponse(false, "Ошибка при удалении базы данных: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/indexPage")
     public ResponseEntity<IndexingResponse> indexPage(@RequestBody String url) {
-        return ResponseEntity.ok(indexingService.indexPage(url));
-
+        try {
+            return ResponseEntity.ok(indexingService.indexPage(url));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new IndexingResponse(false, "Ошибка при индексации страницы: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/statistics")
     public ResponseEntity<StatisticsResponse> statistics() {
-        return ResponseEntity.ok(statisticsService.getStatistics());
+        try {
+            return ResponseEntity.ok(statisticsService.getStatistics());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/search")
-    public ResponseEntity<SearchResponse> search(@RequestParam String query, int offset, int limit, String site) {
-        return ResponseEntity.ok(searchService.search(query, offset, limit, site));
+    public ResponseEntity<SearchResponse> search(@RequestParam String query, @RequestParam int offset, @RequestParam int limit, @RequestParam(required = false) String site) {
+        try {
+            return ResponseEntity.ok(searchService.search(query, offset, limit, site));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new SearchResponse(false, "Ошибка при выполнении поиска: " + e.getMessage()));
+        }
     }
 }
